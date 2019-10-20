@@ -1,0 +1,183 @@
+set nocompatible	"关闭与vi的兼容模式"
+"打开vim对基于文件类型的支持"
+filetype off		
+filetype indent on
+filetype plugin on
+filetype plugin indent on
+
+let &t_ut=' '
+
+"每次打开文件，光标跳转到上次关闭文件的位置"
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif   
+
+set backspace=indent,eol,start
+
+let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+"3s later auto save"
+let autosave = 3
+set scrolloff=5
+
+
+syntax on
+
+let mapleader = " "
+
+map <LEADER>sc :set spell!<CR>
+
+
+ map <C-up> :res +5<CR>
+ map <C-down> :res -5<CR>
+ map <C-left> :vertical resize-5<CR>
+ map <C-right> :vertical resize+5<CR>
+
+" 多窗口光标移动
+map <C-h> <C-w>h
+map <C-j> <C-w>j
+map <C-k> <C-w>k
+map <C-l> <C-w>l
+
+map <F3> :bn<CR>
+map <F2> :bp<CR>
+
+"左右分屏， 光标在左"
+map sh :set nosplitright<CR>:vsplit<CR>
+"上下分屏， 光标在下"
+map sj :set splitbelow<CR>:split<CR>
+"上下分屏，光标在下"
+map sk :set nosplitbelow<CR>:split<CR>
+"左右分屏， 光标在右"
+map sl :set splitright<CR>:vsplit<CR>
+
+"设置为utf-8"
+set encoding=utf-8  
+set termencoding=utf-8  
+set fileencoding=chinese 
+set fileencodings=ucs-bom,utf-8,chinese   
+set langmenu=zh_CN.utf-8  
+source $VIMRUNTIME/delmenu.vim  
+source $VIMRUNTIME/menu.vim  
+language messages zh_cn.utf-8   
+language messages zh_cn.utf-8 
+set fenc=utf-8
+set enc=utf-8
+set number
+set cursorline	"光标所在的当前行高亮"
+set wrap		"自动折行"
+"命令模式下，底部操作指令按下tab自动补全。第一次啊按下，会显示所有匹配到的操作指令清单“
+											"第二次按下，会依次选择各个指令"
+set wildmenu
+set wildmode=longest:list,full
+set showcmd
+set nohlsearch
+set incsearch
+set ignorecase
+set smartcase
+
+set smartindent
+set autoindent "自动缩进" 
+set tabstop=4	"tab四个空格大小"
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+
+
+set ruler
+set showmatch	"光标遇到括号自动高亮另一个括号"
+set t_Co=256
+
+"括号，引号自动补全"
+
+inoremap ( ()<Esc>i
+inoremap [ []<Esc>i
+inoremap { {}<Esc>i
+inoremap ' ''<Esc>i
+inoremap " ""<Esc>i
+
+
+map s <nop>
+map S :w<CR>
+map Q :q<CR>
+map R :source ~/.vimrc<CR>
+"新建一个标签页"
+map nt :tabe<CR>
+"移动到左标签页"
+map th :-tabnext<CR>
+"移动到右标签页"
+map tl :+tabnext<CR>
+
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plugin 'davidhalter/jedi-vim'
+Plugin 'ervandew/supertab'
+Plugin 'tomasr/molokai'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'morhetz/gruvbox'
+Plugin 'sickill/vim-monokai'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'dense-analysis/ale'
+Plugin 'vim-scripts/indentpython.vim'
+call vundle#end()            " required
+
+
+"ale"
+let b:ale_linters = ['pylint']
+let b:ale_fixers = ['autopep8', 'yapf']
+
+
+
+"vim-ariline"
+let g:airline#extensions#tabline#enabled = 1
+
+
+
+"各个tab之间的东西"
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#formatter = 'default'
+
+"jedi-vim"
+let g:python_highlight_all = 1 
+let g:jedi#completions_command = '<S-Tab>'
+let g:jedi#use_tabs_not_buffers = 1
+let g:jedi#smart_auto_mappings = 1
+"supertab"
+let g:SuperTabDefaultCompletionType = "context"
+
+"color scheme"
+syntax enable
+set background=dark
+colorscheme solarized
+
+
+let g:molokai_original = 1
+let g:rehash256 = 1
+
+
+
+
+
+
+
+
+"目录树"
+"启动vim,自动打开目录"
+map ff :NERDTreeToggle<CR>
+let NERDTreeWinSize=30
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "✹",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "✖",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✔︎",
+    \ 'Ignored'   : '☒',
+    \ "Unknown"   : "?"
+    \ }
+
